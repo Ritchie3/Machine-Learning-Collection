@@ -89,8 +89,19 @@ class KMeansClustering:
 
 
 if __name__ == "__main__":
+    from h5_functions import *
+    import cv2
+    pic = export_selected_bands_from_hypercube(r'D:\Python\Music\music_recording\VDS\0025_hypercube.h5', [2,3,4])
+    pic = cv2.resize(pic, (240,210))
+    cv2.imshow('1', pic)
+    cv2.waitKey()
+    cv2.destroyAllWindows()
+    """It’s a 3-dimensional image of shape (192, 263, 3). For clustering the image using k-means, 
+    we first need to convert it into a 2-dimensional array whose shape will be (length*width, channels). 
+    In our example, this will be (192*263, 3)."""
+    X = pic.reshape(pic.shape[0] * pic.shape[1], pic.shape[2])
     np.random.seed(10)
-    num_clusters = 3
+    num_clusters = 5
     X, _ = make_blobs(n_samples=1000, n_features=2, centers=num_clusters)
 
     Kmeans = KMeansClustering(X, num_clusters)
